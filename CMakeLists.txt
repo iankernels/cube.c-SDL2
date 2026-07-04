@@ -1,29 +1,16 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
+project(SDL2_Cube_Demo C)
 
-project(cube C)
+set(CMAKE_C_STANDARD 99)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)
+find_package(SDL2 REQUIRED)
 
-# Warnings
-if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
-  add_compile_options(-Wall -Wextra -Wconversion -pedantic -O2)
+add_executable(cube_demo main.c)
+
+target_include_directories(cube_demo PRIVATE ${SDL2_INCLUDE_DIRS})
+target_link_libraries(cube_demo PRIVATE ${SDL2_LIBRARIES})
+
+# Link mathematical library explicitly for Unix environments
+if(UNIX AND NOT APPLE)
+    target_link_libraries(cube_demo PRIVATE m)
 endif()
-
-add_executable(cube cube.c)
-
-# Prefer SDL2 CMake package, fallback to pkg-config
-find_package(SDL2 CONFIG QUIET)
-if(SDL2_FOUND)
-  target_link_libraries(cube PRIVATE SDL2::SDL2 m)
-else()
-  find_package(PkgConfig REQUIRED)
-  pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
-  target_link_libraries(cube PRIVATE PkgConfig::SDL2 m)
-endif()
-
-# For IDEs, set the working directory to the project dir
-set_property(TARGET cube PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-
-

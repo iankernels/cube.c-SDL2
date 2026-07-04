@@ -1,1 +1,23 @@
-build
+# --- Executables & Build Artifacts ---
+cube_demo
+cube_demo.exe
+*.o
+*.obj
+
+# --- CMake Build Directories ---
+/build/
+/CMakeFiles/
+CMakeCache.txt
+CMakeProjectManager.settings
+cmake_install.cmake
+Makefile.cmake
+
+# --- OS-specific clutter ---
+.DS_Store
+Thumbs.db
+
+# --- IDEs / Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
